@@ -860,7 +860,7 @@ char *cli_mpool_virname(mpool_t *mp, const char *virname, unsigned int official)
         return NULL;
     }
     //sprintf(newname, "%s.UNOFFICIAL", virname);
-    sprintf(newname, "%s.TnD", virname);
+    sprintf(newname, "%s.THAIZONE", virname);
     return newname;
 }
 
