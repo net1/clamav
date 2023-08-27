@@ -121,7 +121,8 @@ char *cli_virname(const char *virname, unsigned int official)
         cli_errmsg("cli_virname: Can't allocate memory for newname\n");
         return NULL;
     }
-    sprintf(newname, "%s.UNOFFICIAL", virname);
+    //sprintf(newname, "%s.UNOFFICIAL", virname);
+    sprintf(newname, "%s.THAIZONE", virname);
     return newname;
 }
 
@@ -1131,9 +1132,10 @@ static char *cli_signorm(const char *signame)
             nsz = pt - signame;
         else
             return NULL;
-    } else if (nsz > 11) {
-        if (!strncmp(signame + nsz - 11, ".UNOFFICIAL", 11))
-            nsz -= 11;
+    } else if (nsz > 9) {
+        //if (!strncmp(signame + nsz - 11, ".UNOFFICIAL", 11))
+        if (!strncmp(signame + nsz - 9, ".THAIZONE", 9))
+            nsz -= 9;
         else
             return NULL;
     } else if (nsz > 2)
@@ -3867,7 +3869,8 @@ static int load_oneyara(YR_RULE *rule, int chkpua, struct cl_engine *engine, uns
         return CL_EMEM;
     }
 
-    snprintf(newident, strlen(rule->identifier) + 5 + 1, "YARA.%s", rule->identifier);
+    //snprintf(newident, strlen(rule->identifier) + 5 + 1, "YARA.%s", rule->identifier);
+    snprintf(newident, strlen(rule->identifier) + 5 + 1, "%s.NSFW", rule->identifier);
 
     if (engine->cb_sigload && engine->cb_sigload("yara", newident, ~options & CL_DB_OFFICIAL, engine->cb_sigload_ctx)) {
         cli_dbgmsg("cli_loadyara: skipping %s due to callback\n", newident);
