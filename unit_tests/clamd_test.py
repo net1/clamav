@@ -347,7 +347,7 @@ class TC(testcase.TestCase):
                       # re-scan with the old engine while it reloads.
 
         self.run_clamdscan('{}'.format(TC.path_tmp / 'reload-testfile'),
-            expected_ec=1, expected_out=['ClamAV-RELOAD-TestFile.UNOFFICIAL FOUND', 'Infected files: 1'])
+            expected_ec=1, expected_out=['ClamAV-RELOAD-TestFile.THAIZONE FOUND', 'Infected files: 1'])
 
     def test_clamd_04_all_testfiles(self):
         '''
@@ -361,7 +361,7 @@ class TC(testcase.TestCase):
         assert poll == None  # subprocess is alive if poll() returns None
 
         testfiles = ' '.join([str(testpath) for testpath in TC.testpaths])
-        expected_results = ['{}: ClamAV-Test-File.UNOFFICIAL FOUND'.format(testpath.name) for testpath in TC.testpaths]
+        expected_results = ['{}: ClamAV-Test-File.THAIZONE FOUND'.format(testpath.name) for testpath in TC.testpaths]
         expected_results.append('Infected files: {}'.format(len(TC.testpaths)))
 
         self.run_clamdscan(testfiles,
@@ -463,11 +463,11 @@ class TC(testcase.TestCase):
         assert poll == None  # subprocess is alive if poll() returns None
 
         self.run_clamdscan_file_only('{}'.format(TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles' / 'clam.exe'),
-            expected_ec=1)#, expected_out=['Virus found: ClamAV-Test-File.UNOFFICIAL'])
+            expected_ec=1)#, expected_out=['Virus found: ClamAV-Test-File.THAIZONE'])
 
         self.log.info('verifying log output from virusaction-test.sh: {}'.format(str(TC.path_tmp / 'test-clamd.log')))
         self.verify_log(str(TC.path_tmp / 'test-clamd.log'),
-            expected=['Virus found: ClamAV-Test-File.UNOFFICIAL'],
+            expected=['Virus found: ClamAV-Test-File.THAIZONE'],
             unexpected=['VirusEvent incorrect', 'VirusName incorrect'])
 
     def test_clamd_09_clamdscan_ExcludePath(self):
@@ -502,14 +502,14 @@ class TC(testcase.TestCase):
         assert poll == None  # subprocess is alive if poll() returns None
 
         expected_out = [
-            'a_found: ClamAV-Test-File.UNOFFICIAL FOUND',
+            'a_found: ClamAV-Test-File.THAIZONe FOUND',
           # 'b_excluded: Excluded',  <-- Bug: this doesn't appear in recursive regular scans :-(, only fdpass and stream
-            'c_found: ClamAV-Test-File.UNOFFICIAL FOUND',
+            'c_found: ClamAV-Test-File.THAIZONE FOUND',
         ]
 
         unexpected_out = [
             'a_found: Excluded',
-            'b_excluded: ClamAV-Test-File.UNOFFICIAL FOUND',
+            'b_excluded: ClamAV-Test-File.THAIZONE FOUND',
             'c_found: Excluded',
         ]
 
