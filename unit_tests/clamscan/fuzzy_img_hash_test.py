@@ -52,11 +52,11 @@ class TC(testcase.TestCase):
         assert output.ec == 1  # virus
 
         expected_stdout = [
-            'logo.png.good.UNOFFICIAL FOUND',
-            'logo.png.good.with.second.subsig.UNOFFICIAL FOUND',
+            'logo.png.good.THAIZONE FOUND',
+            'logo.png.good.with.second.subsig.THAIZONE FOUND',
         ]
         unexpected_stdout = [
-            'logo.png.bad.with.second.subsig.UNOFFICIAL FOUND',
+            'logo.png.bad.with.second.subsig.THAIZONE FOUND',
         ]
         self.verify_output(output.out, expected=expected_stdout)
 
@@ -85,7 +85,7 @@ class TC(testcase.TestCase):
             'Invalid hash: Image fuzzy hash must be 16 characters in length: abcdef',
         ]
         unexpected_stdout = [
-            'logo.png.bad.UNOFFICIAL FOUND',
+            'logo.png.bad.THAIZONE FOUND',
         ]
         self.verify_output(output.err, expected=expected_stderr)
         self.verify_output(output.out, unexpected=unexpected_stdout)
@@ -111,7 +111,7 @@ class TC(testcase.TestCase):
             'Invalid hamming distance: 1',
         ]
         unexpected_stdout = [
-            'logo.png.bad.UNOFFICIAL FOUND',
+            'logo.png.bad.THAIZONE FOUND',
         ]
         self.verify_output(output.err, expected=expected_stderr)
         self.verify_output(output.out, unexpected=unexpected_stdout)
@@ -136,7 +136,7 @@ class TC(testcase.TestCase):
             'cli_loadldb: failed to parse subsignature 0 in logo.png',
         ]
         unexpected_stdout = [
-            'logo.png.bad.UNOFFICIAL FOUND',
+            'logo.png.bad.THAIZONE FOUND',
         ]
         self.verify_output(output.err, expected=expected_stderr)
         self.verify_output(output.out, unexpected=unexpected_stdout)
