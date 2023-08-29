@@ -69,7 +69,7 @@ class TC(testcase.TestCase):
 
         assert output.ec == 1  # virus
 
-        expected_results = ['Test.NDB.UNOFFICIAL FOUND']
+        expected_results = ['Test.NDB.THAIZONE FOUND']
         unexpected_results = ['Heuristics.Broken.Media.PNG.EOFReadingChunk FOUND']
         self.verify_output(output.out, expected=expected_results, unexpected=unexpected_results)
 
@@ -101,7 +101,7 @@ class TC(testcase.TestCase):
         assert output.ec == 1  # virus
 
         expected_results = ['Heuristics.Broken.Media.PNG.EOFReadingChunk FOUND']
-        unexpected_results = ['Test.NDB.UNOFFICIAL FOUND']
+        unexpected_results = ['Test.NDB.THAIZONE FOUND']
         self.verify_output(output.out, expected=expected_results, unexpected=unexpected_results)
 
     def test_precedence(self):
@@ -129,7 +129,7 @@ class TC(testcase.TestCase):
         assert output.ec == 1  # virus
 
         expected_results = ['Heuristics.Broken.Media.PNG.EOFReadingChunk FOUND']
-        unexpected_results = ['Test.NDB.UNOFFICIAL FOUND']
+        unexpected_results = ['Test.NDB.THAIZONE FOUND']
         self.verify_output(output.out, expected=expected_results, unexpected=unexpected_results)
 
     def test_allmatch(self):
@@ -158,7 +158,7 @@ class TC(testcase.TestCase):
         assert output.ec == 1  # virus
 
         expected_results = [
-            'Test.NDB.UNOFFICIAL FOUND',
+            'Test.NDB.THAIZONE FOUND',
             'Heuristics.Broken.Media.PNG.EOFReadingChunk FOUND',
         ]
         self.verify_output(output.out, expected=expected_results, order=STRICT_ORDER)
@@ -191,6 +191,6 @@ class TC(testcase.TestCase):
 
         expected_results = [
             'Heuristics.Broken.Media.PNG.EOFReadingChunk FOUND',
-            'Test.NDB.UNOFFICIAL FOUND',
+            'Test.NDB.THAIZONE FOUND',
         ]
         self.verify_output(output.out, expected=expected_results, order=STRICT_ORDER)
