@@ -74,13 +74,13 @@ class TC(testcase.TestCase):
         fpu_endian_output = self.execute_command(command)
 
         expected_results = [
-            'clam_IScab_ext.exe: ClamAV-Test-Icon-IScab.UNOFFICIAL FOUND',
-            'clam_IScab_int.exe: ClamAV-Test-Icon-IScab.UNOFFICIAL FOUND',
+            'clam_IScab_ext.exe: ClamAV-Test-Icon-IScab.THAIZONE FOUND',
+            'clam_IScab_int.exe: ClamAV-Test-Icon-IScab.THAIZONE FOUND',
         ]
         if fpu_endian_output.ec == 3:
             expected_num_infected = 3
         else:
-            expected_results.append('clam.ea06.exe: ClamAV-Test-Icon-EA0X.UNOFFICIAL FOUND')
+            expected_results.append('clam.ea06.exe: ClamAV-Test-Icon-EA0X.THAIZONE FOUND')
             expected_num_infected = 4
         expected_results.append('Infected files: {}'.format(expected_num_infected))
         self.verify_output(output.out, expected=expected_results)
@@ -206,8 +206,8 @@ class TC(testcase.TestCase):
         assert output.ec == 1
 
         expected_results = [
-            'trust_plus_mal.zip: ClamAV-Test-File.UNOFFICIAL FOUND',
-            'trust_plus_mal2.zip: ClamAV-Test-File.UNOFFICIAL FOUND',
+            'trust_plus_mal.zip: ClamAV-Test-File.THAIZONE FOUND',
+            'trust_plus_mal2.zip: ClamAV-Test-File.THAIZONE FOUND',
         ]
         unexpected_results = ['OK']
 
@@ -232,8 +232,8 @@ class TC(testcase.TestCase):
         assert output.ec == 1
 
         expected_results = [
-            'iso_normal.logo.iso: logo.png.UNOFFICIAL FOUND',
-            'iso_no_joliet.logo.iso: logo.png.UNOFFICIAL FOUND',
+            'iso_normal.logo.iso: logo.png.THAIZONE FOUND',
+            'iso_no_joliet.logo.iso: logo.png.THAIZONE FOUND',
         ]
         unexpected_results = ['OK']
 
