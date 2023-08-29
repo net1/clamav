@@ -101,7 +101,7 @@ rename()
                 db1=TC.normalized_match_sig,
             )
         )
-        self.verify_output(output.out, expected=["Malicious.PHP.normalized.UNOFFICIAL FOUND"], unexpected=[])
+        self.verify_output(output.out, expected=["Malicious.PHP.normalized.THAIZONE FOUND"], unexpected=[])
 
     def test_alerts_on_zip(self):
         """
@@ -116,7 +116,7 @@ rename()
                 db1=TC.normalized_match_sig,
             )
         )
-        self.verify_output(output.out, expected=["Malicious.PHP.normalized.UNOFFICIAL FOUND"], unexpected=[])
+        self.verify_output(output.out, expected=["Malicious.PHP.normalized.THAIZONE FOUND"], unexpected=[])
 
     def test_fp_for_normalized(self):
         """
