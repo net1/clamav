@@ -67,7 +67,7 @@ class TC(testcase.TestCase):
 
         assert output.ec == 1  # virus found
 
-        expected_results = ['{}: ClamAV-Test-File.UNOFFICIAL FOUND'.format(testpath.name) for testpath in TC.testpaths]
+        expected_results = ['{}: ClamAV-Test-File.THAIZONE FOUND'.format(testpath.name) for testpath in TC.testpaths]
         expected_results.append('Scanned files: {}'.format(len(TC.testpaths)))
         expected_results.append('Infected files: {}'.format(len(TC.testpaths)))
         self.verify_output(output.out, expected=expected_results)
@@ -92,5 +92,5 @@ class TC(testcase.TestCase):
 
         expected_results = ['Scanned files: {}'.format(len(TC.testpaths))]
         expected_results.append('Infected files: 0')
-        unexpected_results = ['{}: ClamAV-Test-File.UNOFFICIAL FOUND'.format(testpath.name) for testpath in TC.testpaths]
+        unexpected_results = ['{}: ClamAV-Test-File.THAIZONE FOUND'.format(testpath.name) for testpath in TC.testpaths]
         self.verify_output(output.out, expected=expected_results, unexpected=unexpected_results)
