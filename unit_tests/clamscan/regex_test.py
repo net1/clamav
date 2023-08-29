@@ -59,7 +59,7 @@ rule regex
         assert output.ec == 1  # virus found
 
         expected_results = [
-            'regex.sample: YARA.regex.UNOFFICIAL FOUND',
+            'regex.sample: regex.NSFW.THAIZONE FOUND',
             'Infected files: 1',
         ]
         self.verify_output(output.out, expected=expected_results)
@@ -117,7 +117,7 @@ rule regex
         assert output.ec == 1  # virus found
 
         expected_results = [
-            'regex-slash-colon.sample: YARA.regex.UNOFFICIAL FOUND',
+            'regex-slash-colon.sample: regex.NSFW.THAIZONE FOUND',
             'Infected files: 1',
         ]
         self.verify_output(output.out, expected=expected_results)
