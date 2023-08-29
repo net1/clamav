@@ -137,7 +137,7 @@ static void conn_teardown(void)
 #endif
 
 #define SCANFILE OBJDIR PATHSEP "input" PATHSEP "clamav_hdb_scanfiles" PATHSEP "clam.exe"
-#define FOUNDREPLY "clam.exe: ClamAV-Test-File.UNOFFICIAL FOUND"
+#define FOUNDREPLY "clam.exe: ClamAV-Test-File.THAIZONE FOUND"
 
 /* some clean file */
 #define CLEANFILE SRCDIR PATHSEP "CMakeLists.txt"
@@ -347,8 +347,8 @@ START_TEST(test_compat_commands)
 }
 END_TEST
 
-#define EXPECT_INSTREAM "stream: ClamAV-Test-File.UNOFFICIAL FOUND\n"
-#define EXPECT_INSTREAM0 "stream: ClamAV-Test-File.UNOFFICIAL FOUND"
+#define EXPECT_INSTREAM "stream: ClamAV-Test-File.THAIZONE FOUND\n"
+#define EXPECT_INSTREAM0 "stream: ClamAV-Test-File.THAIZONE FOUND"
 
 #define STATS_REPLY "POOLS: 1\n\nSTATE: VALID PRIMARY\n"
 START_TEST(test_stats)
@@ -503,7 +503,7 @@ static void tst_fildes(const char *cmd, size_t len, int fd,
     conn_teardown();
 }
 
-#define FOUNDFDREPLY " ClamAV-Test-File.UNOFFICIAL FOUND"
+#define FOUNDFDREPLY " ClamAV-Test-File.THAIZONE FOUND"
 #define CLEANFDREPLY " OK"
 
 static struct cmds {
