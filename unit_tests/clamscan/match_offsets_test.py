@@ -51,8 +51,8 @@ class TC(testcase.TestCase):
         assert output.ec == 1  # virus found
 
         expected_results = [
-            'clam_ISmsi_ext.exe: Clam-VI-Test:Target.UNOFFICIAL FOUND',
-            'clam_ISmsi_int.exe: Clam-VI-Test:Target.UNOFFICIAL FOUND',
+            'clam_ISmsi_ext.exe: Clam-VI-Test:Target.THAIZONE FOUND',
+            'clam_ISmsi_int.exe: Clam-VI-Test:Target.THAIZONE FOUND',
             'Infected files: 2',
         ]
         self.verify_output(output.out, expected=expected_results)
@@ -69,8 +69,8 @@ class TC(testcase.TestCase):
         assert output.ec == 1  # virus found
 
         expected_results = [
-            'clam.tar.gz: YARA.yara_at_offset.UNOFFICIAL FOUND',
-            'clam_cache_emax.tgz: YARA.yara_at_offset.UNOFFICIAL FOUND',
+            'clam.tar.gz: yara_at_offset.NSFW.THAIZONE FOUND',
+            'clam_cache_emax.tgz: yara_at_offset.NSFW.THAIZONE FOUND',
             'Infected files: 3',
         ]
         self.verify_output(output.out, expected=expected_results)
@@ -87,8 +87,8 @@ class TC(testcase.TestCase):
         assert output.ec == 1  # virus found
 
         expected_results = [
-            'clam.tar.gz: YARA.yara_in_range.UNOFFICIAL FOUND',
-            'clam_cache_emax.tgz: YARA.yara_in_range.UNOFFICIAL FOUND',
+            'clam.tar.gz: yara_in_range.NSFW.THAIZONE FOUND',
+            'clam_cache_emax.tgz: yara_in_range.NSFW.THAIZONE FOUND',
             'Infected files: 3',
         ]
         self.verify_output(output.out, expected=expected_results)
