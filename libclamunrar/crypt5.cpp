@@ -90,7 +90,7 @@ void pbkdf2(const byte *Pwd, size_t PwdLength,
   byte SaltData[MaxSalt+4];
   memcpy(SaltData, Salt, Min(SaltLength,MaxSalt));
 
-  SaltData[SaltLength + 0] = 0; // Block index appened to salt.
+  SaltData[SaltLength + 0] = 0; // Block index appended to salt.
   SaltData[SaltLength + 1] = 0; //
   SaltData[SaltLength + 2] = 0; // Since we do not request the key width
   SaltData[SaltLength + 3] = 1; // exceeding HMAC width, it is always 1.
@@ -133,7 +133,15 @@ void CryptData::SetKey50(bool Encrypt,SecPassword *Password,const wchar *PwdW,
      byte *PswCheck)
 {
   if (Lg2Cnt>CRYPT5_KDF_LG2_COUNT_MAX)
+  {
+    // Initialize these fields to prevent uninitialized data access warnings
+    // by analyzing tools when accessing returned data.
+    if (HashKey!=nullptr)
+      memset(HashKey,0,SHA256_DIGEST_SIZE);
+    if (PswCheck!=nullptr)
+      memset(PswCheck,0,SIZE_PSWCHECK);
     return;
+  }
 
   byte Key[32],PswCheckValue[SHA256_DIGEST_SIZE],HashKeyValue[SHA256_DIGEST_SIZE];
   bool Found=false;

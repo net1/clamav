@@ -35,7 +35,7 @@ configuration options.
     - [Customizing the Install Directories](#customizing-the-install-directories)
     - [Running the Public Test Suite](#running-the-public-test-suite)
   - [Custom CMake Config Options](#custom-cmake-config-options)
-  - [External Library Depedency Configuration Options](#external-library-depedency-configuration-options)
+  - [External Library Dependency Configuration Options](#external-library-dependency-configuration-options)
     - [`libcheck`](#libcheck)
     - [`bzip2`](#bzip2)
     - [`zlib`](#zlib)
@@ -225,7 +225,7 @@ your build will depend on which type of generator you're using:
 
 > _Tip_: `RelWithDebInfo` is probably the best option for open source projects.
 > It will have the speed optimizations you need. And, if a crash occurs, the
-> crash backtrace you obtain with with a debugger will significantly help in
+> crash backtrace you obtain with a debugger will significantly help in
 > identifying the bug.
 
 For multi-config generators, you _will_ also need to specify the config when
@@ -272,6 +272,7 @@ Use the following variables to customize the install paths:
 - `CMAKE_INSTALL_PREFIX`: Customize the install prefix.
 - `APP_CONFIG_DIRECTORY`: Customize the config directory, may be relative.
 - `DATABASE_DIRECTORY`: Customize the database directory, may be relative.
+- `CVD_CERTS_DIRECTORY`: Customize the ClamAV CA certificates directory, may be relative.
 - `SYSTEMD_UNIT_DIR`: Install SystemD service files to a specific directory.
 
 This example configuration should be familiar if you've used the ClamAV
@@ -283,6 +284,7 @@ cmake .. \
     -D CMAKE_INSTALL_PREFIX=/usr \
     -D CMAKE_INSTALL_LIBDIR=/usr/lib \
     -D APP_CONFIG_DIRECTORY=/etc/clamav \
+    -D CVD_CERTS_DIRECTORY=/etc/clamav/certs \
     -D DATABASE_DIRECTORY=/var/lib/clamav \
     -D ENABLE_JSON_SHARED=OFF # require libjson-c to be static
 # Build
@@ -292,22 +294,22 @@ sudo cmake --build . --target install
 ```
 
 ClamAV has a couple other important paths you can configure. At this time,
-these are only configureable through the `clamd.conf` application config file:
+these are only configurable through the `clamd.conf` application config file:
 
 - `LocalSocket`: You may configure ClamD to listen on a TCP socket or on a
   "local" socket (a Unix socket). A local socket is probably best, for safety.
   But that means you'll need to select a path for the local socket. The sample
-  configu sugegsts using the `/tmp` directory, but you may wish to select
+  config suggests using the `/tmp` directory, but you may wish to select
   a directory like `/var/run/clamav`.
 
 - `TemporaryDirectory`: ClamAV creates a lot of temp files when scanning.
   By default, ClamD and ClamScan will use the system's default temp directory,
   which is typically `/tmp` or `/var/tmp`. But it may be best to give ClamAV
-  it's own directory. Maybe `/var/lib/clamav-tmp`.
+  its own directory. Maybe `/var/lib/clamav-tmp`.
 
 ### Running the Public Test Suite
 
-The option to build so that you can run run the tests is enabled by default.
+The option to build so that you can run the tests is enabled by default.
 It requires that you provide `python3` and `libcheck`.
 
 If you're building with `ENABLE_LIBCLAMAV_ONLY=ON` or `ENABLE_APP=OFF`, then
@@ -372,6 +374,11 @@ The following is a complete list of CMake options unique to configuring ClamAV:
 
   _Default: Windows: `database`, POSIX: `share/clamav`_
 
+- `CVD_CERTS_DIRECTORY`: ClamAV CA certificates directory.
+  Relative to the `CMAKE_INSTALL_PREFIX` unless an absolute path is given.
+
+  _Default: Windows: `certs`, POSIX: `etc/certs`_
+
 - `CLAMAV_USER`: ClamAV User (POSIX-only).
 
   _Default: `clamav`_
@@ -397,7 +404,7 @@ The following is a complete list of CMake options unique to configuring ClamAV:
 
   _Default: `ON`_
 
-- `DO_NOT_SET_RPATH`: By default RPATH is set in executeables resulting using
+- `DO_NOT_SET_RPATH`: By default RPATH is set in executables resulting using
   paths set at build time instead of using system defaults. By setting this
   `ON` system defaults are used.
 
@@ -527,7 +534,7 @@ The following is a complete list of CMake options unique to configuring ClamAV:
 
   _Default: not set_
 
-## External Library Depedency Configuration Options
+## External Library Dependency Configuration Options
 
 The CMake tooling is good about finding installed dependencies on POSIX systems
 provided that you have pkg-config installed, and the dependencies are installed
@@ -585,6 +592,14 @@ But if you:
   -D OPENSSL_SSL_LIBRARY="_filepath of libssl library_"
 ```
 
+_Tip_: For Windows, you may need to do this instead:
+```sh
+  -D OPENSSL_ROOT_DIR="_path to openssl install root_"
+  -D OPENSSL_INCLUDE_DIR="_filepath of openssl header directory_"
+  -D LIB_EAY_RELEASE="_filepath of libcrypto library_"  # or LIB_EAY_DEBUG for Debug builds
+  -D SSL_EAY_RELEASE="_filepath of libssl library_"     # or SSL_EAY_DEBUG for Debug builds
+```
+
 ### `libjson-c`
 
 _Tip_: You're strongly encouraged to link with the a static json-c library.
@@ -634,7 +649,7 @@ Options for a custom LLVM install path, or to select a specific version if you
 have multiple LLVM installations:
 ```sh
   -D LLVM_ROOT_DIR="_path to llvm install root_"
-  -D LLVM_FIND_VERSION="3.6.0"
+  -D LLVM_FIND_VERSION="8.0.1"
 ```
 
 ### `libcurl`
@@ -660,6 +675,11 @@ and:
   -D CURSES_LIBRARY="_filepath of curses library_"
 ```
 
+and, if tinfo is separate from ncurses:
+```sh
+  -D TINFO_LIBRARY="_filepath of tinfo library_"
+```
+
 ### Bytecode Runtime
 
 Bytecode signatures are a type of executable plugin that provide extra
@@ -671,7 +691,7 @@ ClamAV has two bytecode runtimes:
    instructions one by one.
 
    With the interpreter, signature database (re)loads are faster, but execution
-   time for scans that make use of the bytecode sigantures is slower.
+   time for scans that make use of the bytecode signatures is slower.
 
 2. **LLVM**: LLVM can be used to Just-in-Time (JIT) compile bytecode signatures
    at database load time.
@@ -680,8 +700,7 @@ ClamAV has two bytecode runtimes:
    execution should be faster. Not all scans will run bytecode signatures, so
    performance testing will depend heavily depending on what files are tested.
 
-   We ran out of time in 0.104 development to update to support newer versions
-   of LLVM. LLVM 3.6.2 is the newest version supported in ClamAV 0.104.
+   We can work with LLVM 8.0 to 13.x.
 
 #### Interpreter Bytecode Runtime
 
@@ -696,7 +715,7 @@ cmake .. -D BYTECODE_RUNTIME="interpreter"
 
 If you wish to build using LLVM JIT for the bytecode runtime instead of the
 bytecode interpreter, you will need to install the LLVM development libraries.
-ClamAV currently supports LLVM versions 8.0 through 12.0.
+ClamAV currently supports LLVM versions 8.0 through 13.x.
 
 To build with LLVM for the bytecode runtime, build with this option:
 ```sh
@@ -773,6 +792,10 @@ So you will need to install the desired toolchain using `rustup target add`.
 Run `rustup target add --help` for help.
 For a list of available target triples, see:
 https://doc.rust-lang.org/nightly/rustc/platform-support.html
+
+Step-by-step instructions for cross-compiling ClamAV:
+- [Linux GCC amd64 to arm64](./INSTALL-cross-linux-arm64.md)
+- [Windows MSVC x64 to arm64](./INSTALL-cross-windows-arm64.md)
 
 ## Un-install
 

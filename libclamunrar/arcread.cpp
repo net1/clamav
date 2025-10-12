@@ -991,7 +991,7 @@ void Archive::ProcessExtra50(RawRead *Raw,size_t ExtraSize,const BaseBlock *bb)
             if ((Flags & MHEXTRA_METADATA_NAME)!=0)
             {
               uint64 NameSize=Raw->GetV();
-              if (NameSize<0x10000) // Prevent excessive allocation.
+              if (NameSize>0 && NameSize<0x10000) // Prevent excessive allocation.
               {
                 std::vector<char> NameU((size_t)NameSize); // UTF-8 name.
                 Raw->GetB(&NameU[0],(size_t)NameSize);
@@ -1212,7 +1212,7 @@ void Archive::ProcessExtra50(RawRead *Raw,size_t ExtraSize,const BaseBlock *bb)
               FieldSize++;
 
             // We cannot allocate too much memory here, because above
-            // we check FieldSize againt Raw size and we control that Raw size
+            // we check FieldSize against Raw size and we control that Raw size
             // is sensible when reading headers.
             hd->SubData.Alloc((size_t)FieldSize);
             Raw->GetB(hd->SubData.Addr(0),(size_t)FieldSize);
@@ -1394,7 +1394,7 @@ void Archive::ConvertFileHeader(FileHeader *hd)
       hd->FileAttr=0x20;
 
 #ifdef _WIN_ALL
-  if (hd->HSType==HSYS_UNIX) // Convert Unix, OS X and Android decomposed chracters to Windows precomposed.
+  if (hd->HSType==HSYS_UNIX) // Convert Unix, OS X and Android decomposed characters to Windows precomposed.
     ConvertToPrecomposed(hd->FileName,ASIZE(hd->FileName));
 #endif
 
