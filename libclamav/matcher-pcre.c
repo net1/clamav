@@ -425,9 +425,9 @@ cl_error_t cli_pcre_build(struct cli_matcher *root, long long unsigned match_lim
             uint32_t backrefmax = 0;
             (void)pcre2_pattern_info(pm->pdata.re, PCRE2_INFO_BACKREFMAX, &backrefmax);
             if (backrefmax > 0) {
-                cli_warnmsg("cli_pcre_build: regex /%s/ uses backreferences (highest: \\%u), "
-                            "which may cause match failures due to match/recursion limits\n",
-                            pm->pdata.expression, backrefmax);
+                cli_dbgmsg("cli_pcre_build: regex /%s/ uses backreferences (highest: \\%u), "
+                           "which may cause match failures due to match/recursion limits\n",
+                           pm->pdata.expression, backrefmax);
             }
         }
     }
